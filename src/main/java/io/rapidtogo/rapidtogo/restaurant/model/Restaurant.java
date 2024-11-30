@@ -19,6 +19,7 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -46,13 +47,16 @@ public class Restaurant {
   private LocalTime closingTime;
 
   @Column(name = "pick_up", nullable = false)
-  private boolean pickUp;
+  private boolean pickUp = false;
 
   @Column(name = "delivery", nullable = false)
-  private boolean delivery;
+  private boolean delivery = false;
 
   @Column(name = "delivery_fee")
   private BigDecimal deliveryFee = BigDecimal.ZERO;
+
+  @Column(name = "minimal_order")
+  private BigDecimal minimalOrder = BigDecimal.ZERO;
 
   @Column(name = "score", nullable = false)
   private BigDecimal score = BigDecimal.ZERO;
@@ -84,5 +88,10 @@ public class Restaurant {
   private Address address;
 
   @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-  private List<Review> reviews;
+  private List<Review> reviews = new ArrayList<>();
+
+  public int getReviewCount() {
+    return reviews.size();
+  }
+
 }

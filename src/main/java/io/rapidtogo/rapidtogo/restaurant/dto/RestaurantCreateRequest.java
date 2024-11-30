@@ -36,6 +36,9 @@ public class RestaurantCreateRequest {
   @ValidEnum(enumClass = Category.class)
   private String category;
 
+  @PositiveOrZero(message = "Minimal order must be positive or zero.")
+  private BigDecimal minimalOrder;
+
   @Valid
   @NotNull(message = "Address of the restaurant is required.")
   private AddressCreateRequest address;
