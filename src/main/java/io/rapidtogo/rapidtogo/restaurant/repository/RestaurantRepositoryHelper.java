@@ -55,4 +55,17 @@ public class RestaurantRepositoryHelper {
 
     restaurantRepository.deleteById(restaurantId);
   }
+
+  /**
+   * Check if restaurant exists by ID
+   *
+   * @param restaurantId ID of the restaurant
+   * @throws EntityNotFoundException if no restaurant is found with the given ID
+   */
+  public void checkExistence(Long restaurantId) {
+
+    if (!restaurantRepository.existsById(restaurantId)) {
+      throw new EntityNotFoundException("Restaurant with ID: " + restaurantId + " not found");
+    }
+  }
 }
