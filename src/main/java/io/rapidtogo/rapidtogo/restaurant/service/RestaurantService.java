@@ -1,8 +1,14 @@
 package io.rapidtogo.rapidtogo.restaurant.service;
 
-import io.rapidtogo.rapidtogo.restaurant.mapper.RestaurantMapper;
-import io.rapidtogo.rapidtogo.restaurant.repository.RestaurantRepository;
 import io.rapidtogo.rapidtogo.restaurant.dto.RestaurantCreateRequest;
+import io.rapidtogo.rapidtogo.restaurant.dto.RestaurantDetailedResponse;
+import io.rapidtogo.rapidtogo.restaurant.dto.RestaurantMinimalResponse;
+import io.rapidtogo.rapidtogo.restaurant.dto.RestaurantUpdateRequest;
+import io.rapidtogo.rapidtogo.restaurant.mapper.RestaurantMapper;
+import io.rapidtogo.rapidtogo.restaurant.model.Restaurant;
+import io.rapidtogo.rapidtogo.restaurant.repository.RestaurantRepository;
+import io.rapidtogo.rapidtogo.restaurant.repository.RestaurantRepositoryHelper;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +19,7 @@ public class RestaurantService {
 
   private final RestaurantRepository restaurantRepository;
   private final RestaurantMapper restaurantMapper;
+  private final RestaurantRepositoryHelper restaurantRepositoryHelper;
 
   @Transactional
   public String createRestaurant(RestaurantCreateRequest request) {
@@ -20,6 +27,38 @@ public class RestaurantService {
     restaurantRepository.save(restaurantMapper.mapToEntity(request));
 
     return "Restaurant created successfully";
+  }
+
+  @Transactional(readOnly = true)
+  public List<RestaurantMinimalResponse> getAllRestaurants() {
+
+    return restaurantMapper.mapToMinimalListDto(restaurantRepositoryHelper.getAll());
+  }
+
+  @Transactional(readOnly = true)
+  public RestaurantDetailedResponse getRestaurantById(Long restaurantId) {
+
+    Restaurant restaurant = restaurantRepositoryHelper.getById(restaurantId);
+
+    return restaurantMapper.mapToDetailedDto(restaurant);
+  }
+
+  @Transactional
+  public String updateRestaurantById(Long restaurantId, RestaurantUpdateRequest request) {
+
+    Restaurant restaurant = restaurantRepositoryHelper.getById(restaurantId);
+    restaurant = restaurantMapper.updateEntity(restaurant, request);
+    restaurantRepository.save(restaurant);
+
+    return "Restaurant updated successfully";
+  }
+
+  @Transactional
+  public String deleteRestaurantById(Long restaurantId) {
+
+    restaurantRepositoryHelper.deleteById(restaurantId);
+
+    return "Restaurant deleted successfully";
   }
 
 }
