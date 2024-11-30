@@ -1,6 +1,7 @@
 package io.rapidtogo.rapidtogo.restaurant.model;
 
 import io.rapidtogo.rapidtogo.address.model.Address;
+import io.rapidtogo.rapidtogo.menu.model.Menu;
 import io.rapidtogo.rapidtogo.restaurant.enums.Category;
 import io.rapidtogo.rapidtogo.review.model.Review;
 import jakarta.persistence.CascadeType;
@@ -99,6 +100,9 @@ public class Restaurant {
 
   @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
   private List<Review> reviews = new ArrayList<>();
+
+  @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+  private List<Menu> menus = new ArrayList<>();
 
   public int getReviewCount() {
     return reviews.size();
