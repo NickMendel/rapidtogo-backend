@@ -2,6 +2,7 @@ package io.rapidtogo.rapidtogo.restaurant.dto;
 
 import io.rapidtogo.rapidtogo.address.dto.AddressResponse;
 import java.math.BigDecimal;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,8 +20,7 @@ public class RestaurantDetailedResponse {
   private String description;
   private boolean pickUp;
   private boolean delivery;
-  private String openingTime;
-  private String closingTime;
+  private Map<String, String> openingHours;
   private BigDecimal minimalOrder;
   private BigDecimal deliveryFee;
   private BigDecimal score;

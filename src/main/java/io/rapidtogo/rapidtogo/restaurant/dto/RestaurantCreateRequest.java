@@ -8,7 +8,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
-import java.time.LocalTime;
+import java.util.Map;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,11 +22,8 @@ public class RestaurantCreateRequest {
   @NotBlank(message = "Name of the restaurant is required.")
   private String name;
 
-  @NotNull(message = "Opening time of the restaurant is required.")
-  private LocalTime openingTime;
-
-  @NotNull(message = "Closing time of the restaurant is required.")
-  private LocalTime closingTime;
+  @NotNull(message = "Opening hours of the restaurant is required.")
+  private Map<String, String> openingHours;
 
   @NotNull(message = "Pick up option is required.")
   private boolean pickUp;
@@ -33,8 +31,8 @@ public class RestaurantCreateRequest {
   @NotNull(message = "Delivery option is required.")
   private boolean delivery;
 
-  @ValidEnum(enumClass = Category.class)
-  private String category;
+  @NotNull(message = "Categories of the restaurant are required.")
+  private Set<@ValidEnum(enumClass = Category.class) String> category;
 
   @PositiveOrZero(message = "Minimal order must be positive or zero.")
   private BigDecimal minimalOrder;

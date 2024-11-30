@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,8 +27,8 @@ public class RestaurantUpdateRequest {
   @NotNull(message = "Delivery option is required.")
   private boolean delivery;
 
-  @ValidEnum(enumClass = Category.class)
-  private String category;
+  @NotNull
+  private Set<@ValidEnum(enumClass = Category.class) String> category;
 
   @PositiveOrZero(message = "Minimal order must be positive or zero.")
   private BigDecimal minimalOrder;
