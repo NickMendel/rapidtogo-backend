@@ -1,6 +1,7 @@
 package io.rapidtogo.rapidtogo.review.model;
 
 import io.rapidtogo.rapidtogo.restaurant.model.Restaurant;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -40,7 +41,12 @@ public class Review {
   @Column(name = "delivery_score")
   private int deliveryRate;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(cascade = {
+      CascadeType.PERSIST,
+      CascadeType.MERGE,
+      CascadeType.REFRESH,
+      CascadeType.DETACH
+  }, fetch = FetchType.LAZY)
   private Restaurant restaurant;
 
   // TODO: Add nullable = false after implementing user authentication
