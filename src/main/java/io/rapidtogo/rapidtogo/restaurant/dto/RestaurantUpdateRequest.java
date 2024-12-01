@@ -1,6 +1,6 @@
 package io.rapidtogo.rapidtogo.restaurant.dto;
 
-import io.rapidtogo.rapidtogo.address.dto.AddressCreateRequest;
+import io.rapidtogo.rapidtogo.address.dto.AddressRequest;
 import io.rapidtogo.rapidtogo.restaurant.enums.Category;
 import io.rapidtogo.rapidtogo.utils.validation.enum_validation.ValidEnum;
 import jakarta.validation.Valid;
@@ -35,7 +35,7 @@ public class RestaurantUpdateRequest {
 
   @Valid
   @NotNull(message = "Address of the restaurant is required.")
-  private AddressCreateRequest address;
+  private AddressRequest address;
 
   @PositiveOrZero(message = "Delivery fee must be positive or zero.")
   private BigDecimal deliveryFee;

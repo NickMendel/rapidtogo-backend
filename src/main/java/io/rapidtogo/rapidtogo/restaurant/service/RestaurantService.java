@@ -32,13 +32,13 @@ public class RestaurantService {
   @Transactional(readOnly = true)
   public List<RestaurantMinimalResponse> getAllRestaurants() {
 
-    return restaurantMapper.mapToMinimalListDto(restaurantRepositoryHelper.getAll());
+    return restaurantMapper.mapToMinimalListDto(restaurantRepositoryHelper.findAll());
   }
 
   @Transactional(readOnly = true)
   public RestaurantDetailedResponse getRestaurantById(Long restaurantId) {
 
-    Restaurant restaurant = restaurantRepositoryHelper.getById(restaurantId);
+    Restaurant restaurant = restaurantRepositoryHelper.findById(restaurantId);
 
     return restaurantMapper.mapToDetailedDto(restaurant);
   }
@@ -46,13 +46,13 @@ public class RestaurantService {
   @Transactional(readOnly = true)
   public List<RestaurantMinimalResponse> getAllRestaurantsByCity(String city) {
 
-    return restaurantMapper.mapToMinimalListDto(restaurantRepositoryHelper.getAllByCity(city));
+    return restaurantMapper.mapToMinimalListDto(restaurantRepositoryHelper.findAllByCity(city));
   }
 
   @Transactional
   public String updateRestaurantById(Long restaurantId, RestaurantUpdateRequest request) {
 
-    Restaurant restaurant = restaurantRepositoryHelper.getById(restaurantId);
+    Restaurant restaurant = restaurantRepositoryHelper.findById(restaurantId);
     restaurant = restaurantMapper.updateEntity(restaurant, request);
     restaurantRepository.save(restaurant);
 

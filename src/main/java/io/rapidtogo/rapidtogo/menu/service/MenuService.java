@@ -25,7 +25,7 @@ public class MenuService {
   @Transactional
   public String createMenu(Long restaurantId, MenuRequest request) {
 
-    Restaurant restaurant = restaurantRepositoryHelper.getById(restaurantId);
+    Restaurant restaurant = restaurantRepositoryHelper.findById(restaurantId);
     Menu menu = menuMapper.mapToEntity(request);
     restaurant.getMenus().add(menu);
     menu.setRestaurant(restaurant);

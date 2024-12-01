@@ -30,13 +30,20 @@ public class Review {
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "review_id_seq")
   @SequenceGenerator(name = "review_id_seq", sequenceName = "review_id_seq", allocationSize = 1)
   private Long id;
+
   @Column(name = "content")
   private String content;
+
   @Column(name = "quality_score", nullable = false)
-  private int qualityScore;
+  private int qualityRate;
+
   @Column(name = "delivery_score")
-  private int deliveryScore;
+  private int deliveryRate;
 
   @ManyToOne(fetch = FetchType.LAZY)
   private Restaurant restaurant;
+
+  // TODO: Add nullable = false after implementing user authentication
+  @Column(name = "user_id")
+  private String userId;
 }

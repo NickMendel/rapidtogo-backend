@@ -18,7 +18,7 @@ public class RestaurantRepositoryHelper {
    * @return List of all restaurants
    * @throws EntityNotFoundException if no restaurants are found
    */
-  public List<Restaurant> getAll() {
+  public List<Restaurant> findAll() {
 
     List<Restaurant> restaurants = restaurantRepository.findAll();
 
@@ -36,12 +36,12 @@ public class RestaurantRepositoryHelper {
    * @return Restaurant with the given ID
    * @throws EntityNotFoundException if no restaurant is found with the given ID
    */
-  public Restaurant getById(Long restaurantId) {
+  public Restaurant findById(Long restaurantId) {
     return restaurantRepository.findById(restaurantId).orElseThrow(
         () -> new EntityNotFoundException("Restaurant with ID: " + restaurantId + " not found"));
   }
 
-  public List<Restaurant> getAllByCity(String city) {
+  public List<Restaurant> findAllByCity(String city) {
 
     List<Restaurant> restaurants = restaurantRepository.findAllByCity(city);
 
