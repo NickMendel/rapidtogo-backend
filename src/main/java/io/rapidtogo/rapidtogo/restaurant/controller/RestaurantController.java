@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -57,6 +58,16 @@ public class RestaurantController {
     log.info("Retrieved restaurant with id {}.", restaurantId);
 
     return ResponseEntity.status(HttpStatus.OK).body(restaurant);
+  }
+
+  @GetMapping(params = "city")
+  public ResponseEntity<List<RestaurantMinimalResponse>> getAllRestaurantsByCity(
+      @RequestParam String city) {
+
+    List<RestaurantMinimalResponse> restaurants = restaurantService.getAllRestaurantsByCity(city);
+    log.info("Retrieved {} restaurants in city {}.", restaurants.size(), city);
+
+    return ResponseEntity.status(HttpStatus.OK).body(restaurants);
   }
 
   @PutMapping("/{id}")

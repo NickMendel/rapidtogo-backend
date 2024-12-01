@@ -23,7 +23,7 @@ public class RestaurantDetailedResponse {
   private Map<String, String> openingHours;
   private BigDecimal minimalOrder;
   private BigDecimal deliveryFee;
-  private BigDecimal score;
+  private Double averageRating;
   private AddressResponse address;
-  private int reviewCount;
+  private Integer totalReviews;
 }

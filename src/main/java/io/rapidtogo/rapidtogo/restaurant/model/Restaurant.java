@@ -67,14 +67,14 @@ public class Restaurant {
   @Column(name = "minimal_order")
   private BigDecimal minimalOrder = BigDecimal.ZERO;
 
-  @Column(name = "score", nullable = false)
-  private BigDecimal score = BigDecimal.ZERO;
-
   @ElementCollection(targetClass = Category.class)
   @Enumerated(EnumType.STRING)
   @CollectionTable(name = "restaurant_category", joinColumns = @JoinColumn(name = "restaurant_id"))
   @Column(name = "category", nullable = false)
   private Set<Category> categories;
+
+  @Column(name = "average_rating")
+  private Double averageRating;
 
   @Column(name = "phone_number")
   private String phoneNumber;
@@ -104,9 +104,4 @@ public class Restaurant {
 
   @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
   private List<Menu> menus = new ArrayList<>();
-
-  public int getReviewCount() {
-    return reviews.size();
-  }
-
 }

@@ -34,9 +34,8 @@ public class RestaurantMapper {
     restaurant.setOpeningHours(parseOpeningHours(request.getOpeningHours()));
     restaurant.setPickUp(request.isPickUp());
     restaurant.setDelivery(request.isDelivery());
-    restaurant.setCategories(request.getCategory().stream()
-        .map(Category::valueOf)
-        .collect(Collectors.toSet()));
+    restaurant.setCategories(
+        request.getCategory().stream().map(Category::valueOf).collect(Collectors.toSet()));
     restaurant.setAddress(addressMapper.mapToEntity(request.getAddress()));
 
     if (request.getDeliveryFee() != null) {
@@ -62,9 +61,7 @@ public class RestaurantMapper {
       return null;
     }
 
-    return restaurants.stream()
-        .map(this::mapToMinimalDto)
-        .collect(Collectors.toList());
+    return restaurants.stream().map(this::mapToMinimalDto).collect(Collectors.toList());
   }
 
   public RestaurantMinimalResponse mapToMinimalDto(Restaurant restaurant) {
@@ -78,9 +75,9 @@ public class RestaurantMapper {
     restaurantMinimalResponse.setName(restaurant.getName());
     restaurantMinimalResponse.setCategory(restaurant.getCategories());
     restaurantMinimalResponse.setDeliveryFee(restaurant.getDeliveryFee());
-    restaurantMinimalResponse.setScore(restaurant.getScore());
+    restaurantMinimalResponse.setAverageRating(restaurant.getAverageRating());
+    restaurantMinimalResponse.setTotalReviews(restaurant.getReviews().size());
     restaurantMinimalResponse.setMinimalOrder(restaurant.getMinimalOrder());
-    restaurantMinimalResponse.setReviewCount(restaurant.getReviewCount());
 
     return restaurantMinimalResponse;
   }
@@ -95,22 +92,20 @@ public class RestaurantMapper {
     restaurantDetailedResponse.setId(restaurant.getId());
     restaurantDetailedResponse.setName(restaurant.getName());
     restaurantDetailedResponse.setOpeningHours(restaurant.getOpeningHours().entrySet().stream()
-        .collect(Collectors.toMap(
-            entry -> entry.getKey().toString().toLowerCase(),
-            entry -> intervalFormatter.formatTimeInterval(entry.getValue())
-        )));
+        .collect(Collectors.toMap(entry -> entry.getKey().toString().toLowerCase(),
+            entry -> intervalFormatter.formatTimeInterval(entry.getValue()))));
     restaurantDetailedResponse.setPickUp(restaurant.isPickUp());
     restaurantDetailedResponse.setDelivery(restaurant.isDelivery());
-    restaurantDetailedResponse.setCategory(restaurant.getCategories().stream()
-        .map(Category::toString)
-        .collect(Collectors.joining(", ")));
+    restaurantDetailedResponse.setCategory(
+        restaurant.getCategories().stream().map(Category::toString)
+            .collect(Collectors.joining(", ")));
     restaurantDetailedResponse.setDeliveryFee(restaurant.getDeliveryFee());
     restaurantDetailedResponse.setPhoneNumber(restaurant.getPhoneNumber());
     restaurantDetailedResponse.setWebsite(restaurant.getWebsite());
     restaurantDetailedResponse.setDescription(restaurant.getDescription());
-    restaurantDetailedResponse.setScore(restaurant.getScore());
+    restaurantDetailedResponse.setAverageRating(restaurant.getAverageRating());
+    restaurantDetailedResponse.setTotalReviews(restaurant.getReviews().size());
     restaurantDetailedResponse.setMinimalOrder(restaurant.getMinimalOrder());
-    restaurantDetailedResponse.setReviewCount(restaurant.getReviewCount());
     restaurantDetailedResponse.setAddress(addressMapper.mapToDto(restaurant.getAddress()));
 
     return restaurantDetailedResponse;
@@ -125,9 +120,8 @@ public class RestaurantMapper {
     restaurant.setName(request.getName());
     restaurant.setPickUp(request.isPickUp());
     restaurant.setDelivery(request.isDelivery());
-    restaurant.setCategories(request.getCategory().stream()
-        .map(Category::valueOf)
-        .collect(Collectors.toSet()));
+    restaurant.setCategories(
+        request.getCategory().stream().map(Category::valueOf).collect(Collectors.toSet()));
     restaurant.setMinimalOrder(request.getMinimalOrder());
     restaurant.setAddress(addressMapper.mapToEntity(request.getAddress()));
 
@@ -156,9 +150,8 @@ public class RestaurantMapper {
    * @return Map<DayOfWeek, LocalTime [ ]> with day of week as key and array of LocalTime as value
    */
   private Map<DayOfWeek, LocalTime[]> parseOpeningHours(Map<String, String> openingHours) {
-    return openingHours.entrySet().stream()
-        .collect(Collectors.toMap(
-            entry -> DayOfWeek.valueOf(entry.getKey().toUpperCase()),
+    return openingHours.entrySet().stream().collect(
+        Collectors.toMap(entry -> DayOfWeek.valueOf(entry.getKey().toUpperCase()),
             entry -> intervalFormatter.parseTimeInterval(entry.getValue())
 
         ));

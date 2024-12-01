@@ -16,7 +16,7 @@ public class RestaurantMinimalResponse {
   private String name;
   private Set<Category> category;
   private BigDecimal deliveryFee;
-  private BigDecimal score;
+  private Double averageRating;
   private BigDecimal minimalOrder;
-  private int reviewCount;
+  private Integer totalReviews;
 }

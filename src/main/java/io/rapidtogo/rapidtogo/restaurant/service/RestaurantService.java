@@ -43,6 +43,12 @@ public class RestaurantService {
     return restaurantMapper.mapToDetailedDto(restaurant);
   }
 
+  @Transactional(readOnly = true)
+  public List<RestaurantMinimalResponse> getAllRestaurantsByCity(String city) {
+
+    return restaurantMapper.mapToMinimalListDto(restaurantRepositoryHelper.getAllByCity(city));
+  }
+
   @Transactional
   public String updateRestaurantById(Long restaurantId, RestaurantUpdateRequest request) {
 
