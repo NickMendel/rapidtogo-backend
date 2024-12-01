@@ -38,9 +38,9 @@ public class MenuRepositoryHelper {
    * @return Menu with the given ID
    * @throws EntityNotFoundException if no menu is found with the given ID
    */
-  public Menu findByRestaurantIdAndMenuId(Long restaurantId, Long menuId) {
+  public Menu findByRestaurantIdAndById(Long restaurantId, Long menuId) {
 
-    return menuRepository.findByRestaurantIdAndId(restaurantId, menuId).orElseThrow(
+    return menuRepository.findByRestaurantIdAndById(restaurantId, menuId).orElseThrow(
         () -> new EntityNotFoundException(
             "Menu with ID: " + menuId + " not found for restaurant ID: " + restaurantId));
   }

@@ -52,7 +52,7 @@ public class MenuPartnerController {
   public ResponseEntity<MenuResponse> getMenuByRestaurantIdAndMenuId(
       @PathVariable Long restaurantId, @PathVariable Long menuId) {
 
-    MenuResponse menu = menuService.getMenuByRestaurantIdAndMenuId(restaurantId, menuId);
+    MenuResponse menu = menuService.getMenuByRestaurantIdAndById(restaurantId, menuId);
     log.info("Menu with ID {} for restaurant ID {} fetched successfully", menuId, restaurantId);
 
     return ResponseEntity.status(HttpStatus.OK).body(menu);

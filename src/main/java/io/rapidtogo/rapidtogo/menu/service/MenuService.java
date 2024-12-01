@@ -1,9 +1,10 @@
 package io.rapidtogo.rapidtogo.menu.service;
 
-import io.rapidtogo.rapidtogo.menu.dto.MenuCreateRequest;
+import io.rapidtogo.rapidtogo.menu.dto.MenuRequest;
 import io.rapidtogo.rapidtogo.menu.dto.MenuResponse;
 import io.rapidtogo.rapidtogo.menu.mapper.MenuMapper;
 import io.rapidtogo.rapidtogo.menu.model.Menu;
+import io.rapidtogo.rapidtogo.menu.repository.MenuRepository;
 import io.rapidtogo.rapidtogo.menu.repository.MenuRepositoryHelper;
 import io.rapidtogo.rapidtogo.restaurant.model.Restaurant;
 import io.rapidtogo.rapidtogo.restaurant.repository.RestaurantRepositoryHelper;
@@ -18,10 +19,11 @@ public class MenuService {
 
   private final MenuRepositoryHelper menuRepositoryHelper;
   private final RestaurantRepositoryHelper restaurantRepositoryHelper;
+  private final MenuRepository menuRepository;
   private final MenuMapper menuMapper;
 
   @Transactional
-  public String createMenu(Long restaurantId, MenuCreateRequest request) {
+  public String createMenu(Long restaurantId, MenuRequest request) {
 
     Restaurant restaurant = restaurantRepositoryHelper.getById(restaurantId);
     Menu menu = menuMapper.mapToEntity(request);
@@ -35,9 +37,38 @@ public class MenuService {
   public List<MenuResponse> getAllMenusByRestaurantId(Long restaurantId) {
 
     restaurantRepositoryHelper.checkExistence(restaurantId);
-    List<Menu> menus = menuRepositoryHelper.getAllByRestaurantId(restaurantId);
+    List<Menu> menus = menuRepositoryHelper.findAllByRestaurantId(restaurantId);
 
     return menuMapper.mapToListDto(menus);
+  }
+
+  @Transactional(readOnly = true)
+  public MenuResponse getMenuByRestaurantIdAndById(Long restaurantId, Long menuId) {
+
+    restaurantRepositoryHelper.checkExistence(restaurantId);
+    Menu menu = menuRepositoryHelper.findByRestaurantIdAndById(restaurantId, menuId);
+
+    return menuMapper.mapToDto(menu);
+  }
+
+  @Transactional
+  public String updateMenu(Long restaurantId, Long menuId, MenuRequest request) {
+
+    restaurantRepositoryHelper.checkExistence(restaurantId);
+    Menu menu = menuRepositoryHelper.findByRestaurantIdAndById(restaurantId, menuId);
+    menuMapper.updateEntity(menu, request);
+
+    return "Menu updated successfully";
+  }
+
+  @Transactional
+  public String deleteMenu(Long restaurantId, Long menuId) {
+
+    restaurantRepositoryHelper.checkExistence(restaurantId);
+    Menu menu = menuRepositoryHelper.findByRestaurantIdAndById(restaurantId, menuId);
+    menuRepository.delete(menu);
+
+    return "Menu deleted successfully";
   }
 
 }

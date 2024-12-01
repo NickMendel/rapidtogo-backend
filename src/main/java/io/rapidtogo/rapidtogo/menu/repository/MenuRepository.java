@@ -16,5 +16,5 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
   List<Menu> findAllByRestaurantId(Long restaurantId);
 
   @Query("SELECT m FROM Menu m WHERE m.restaurant.id = :restaurantId AND m.id = :menuId")
-  Optional<Menu> findByRestaurantIdAndId(Long restaurantId, Long menuId);
+  Optional<Menu> findByRestaurantIdAndById(Long restaurantId, Long menuId);
 }
