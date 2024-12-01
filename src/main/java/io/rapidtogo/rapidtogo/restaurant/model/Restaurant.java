@@ -91,7 +91,8 @@ public class Restaurant {
   @Column(name = "active", nullable = false)
   private boolean active = true;
 
-  @Column(name = "user_id", nullable = false)
+  // TODO: Add nullable = false after implementing user registration/login
+  @Column(name = "user_id")
   private Long userId;
 
   @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
