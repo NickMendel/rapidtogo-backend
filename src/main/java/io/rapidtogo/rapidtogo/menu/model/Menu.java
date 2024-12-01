@@ -40,7 +40,12 @@ public class Menu {
   @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
   private List<Product> products = new ArrayList<>();
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(cascade = {
+      CascadeType.PERSIST,
+      CascadeType.MERGE,
+      CascadeType.REFRESH,
+      CascadeType.DETACH
+  }, fetch = FetchType.LAZY)
   private Restaurant restaurant;
 
   @Column(name = "user_id")
