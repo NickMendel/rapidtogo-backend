@@ -41,6 +41,17 @@ public class RestaurantRepositoryHelper {
         () -> new EntityNotFoundException("Restaurant with ID: " + restaurantId + " not found"));
   }
 
+  public List<Restaurant> getAllByCity(String city) {
+
+    List<Restaurant> restaurants = restaurantRepository.findAllByCity(city);
+
+    if (restaurants.isEmpty()) {
+      throw new EntityNotFoundException("No restaurants found in city: " + city);
+    }
+
+    return restaurants;
+  }
+
   /**
    * Delete restaurant by ID
    *
