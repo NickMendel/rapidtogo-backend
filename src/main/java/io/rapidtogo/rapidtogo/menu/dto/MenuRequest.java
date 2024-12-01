@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MenuCreateRequest {
+public class MenuRequest {
 
   @NotBlank
   private String name;
