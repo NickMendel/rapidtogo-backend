@@ -1,5 +1,6 @@
 package io.rapidtogo.rapidtogo.exception;
 
+import io.rapidtogo.rapidtogo.review.exception.ReviewNotUpdatableException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -78,6 +79,26 @@ public class ExceptionHandling {
 
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
         .header("X-Error-Message", "ConstraintViolationException: " + errorMessages)
+        .build();
+  }
+
+  @ExceptionHandler(UniqueNameException.class)
+  public ResponseEntity<Void> handleUniqueNameException(UniqueNameException e) {
+
+    log.error("UniqueNameException: {}", e.getMessage());
+
+    return ResponseEntity.status(HttpStatus.CONFLICT)
+        .header("X-Error-Message", "UniqueNameException: " + e.getMessage())
+        .build();
+  }
+
+  @ExceptionHandler(ReviewNotUpdatableException.class)
+  public ResponseEntity<Void> handleReviewNotUpdatableException(ReviewNotUpdatableException e) {
+
+    log.error("ReviewNotUpdatableException: {}", e.getMessage());
+
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .header("X-Error-Message", "ReviewNotUpdatableException: " + e.getMessage())
         .build();
   }
 }
