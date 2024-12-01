@@ -1,6 +1,6 @@
 package io.rapidtogo.rapidtogo.menu.mapper;
 
-import io.rapidtogo.rapidtogo.menu.dto.MenuCreateRequest;
+import io.rapidtogo.rapidtogo.menu.dto.MenuRequest;
 import io.rapidtogo.rapidtogo.menu.dto.MenuResponse;
 import io.rapidtogo.rapidtogo.menu.model.Menu;
 import io.rapidtogo.rapidtogo.product.mapper.ProductMapper;
@@ -15,7 +15,7 @@ public class MenuMapper {
 
   private final ProductMapper productMapper;
 
-  public Menu mapToEntity(MenuCreateRequest request) {
+  public Menu mapToEntity(MenuRequest request) {
 
     if (request == null) {
       return null;
@@ -52,5 +52,21 @@ public class MenuMapper {
     return menus.stream()
         .map(this::mapToDto)
         .toList();
+  }
+
+  /**
+   * Update the entity with the given request data including the name and description
+   *
+   * @param menu    Menu entity to update
+   * @param request Menu request
+   */
+  public void updateEntity(Menu menu, MenuRequest request) {
+
+    if (request == null) {
+      return;
+    }
+
+    menu.setName(request.getName());
+    menu.setDescription(request.getDescription());
   }
 }
