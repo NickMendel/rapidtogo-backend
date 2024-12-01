@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddressCreateRequest {
+public class AddressRequest {
 
   @NotBlank(message = "Street is required.")
   private String street;
