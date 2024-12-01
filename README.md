@@ -23,3 +23,15 @@ the following functionalities:
     - Customer management for platform
     - Partner management for platform
     - Driver management for platform
+
+## Planing Tasks
+
+- [x] Create the project structure
+- [x] Create the project README.md
+- [x] Create the project LICENSE
+- [x] Create the project CHANGELOG.md
+- [x] Create the restaurant partner domain
+- [x] Create the menu domain
+- [] Create the review domain
+- [x] Create the product domain
+- [x] Create the address domain
