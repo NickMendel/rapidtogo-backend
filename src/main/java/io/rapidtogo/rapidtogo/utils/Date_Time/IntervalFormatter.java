@@ -15,6 +15,6 @@ public class IntervalFormatter {
 
   public String formatTimeInterval(LocalTime[] timeInterval) {
 
-    return timeInterval[0] + "-" + timeInterval[1];
+    return timeInterval[0].toString() + "-" + timeInterval[1].toString();
   }
 }
