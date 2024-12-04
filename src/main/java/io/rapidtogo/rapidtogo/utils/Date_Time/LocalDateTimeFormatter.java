@@ -12,7 +12,7 @@ public class LocalDateTimeFormatter {
    * @param localDateTime the LocalDateTime object to format
    * @return the string representation of the LocalDateTime object in ISO format
    */
-  public static String formatToIso(LocalDateTime localDateTime) {
+  public String formatToIso(LocalDateTime localDateTime) {
 
     if (localDateTime == null) {
       return null;
