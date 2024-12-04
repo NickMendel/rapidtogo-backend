@@ -14,5 +14,5 @@ public class AddressResponse {
   private String houseNumber;
   private String city;
   private String zipCode;
-  private String country;
+  private String countryISOCode;
 }

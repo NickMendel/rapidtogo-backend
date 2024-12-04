@@ -35,6 +35,6 @@ public class Address {
   @Column(name = "zip_code", nullable = false)
   private String zipCode;
 
-  @Column(name = "country", nullable = false)
-  private String country;
+  @Column(name = "country_iso_code", length = 2, nullable = false)
+  private String countryISOCode;
 }
