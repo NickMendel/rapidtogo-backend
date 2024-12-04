@@ -1,6 +1,7 @@
 package io.rapidtogo.rapidtogo.partner.restaurant.model;
 
 import io.rapidtogo.rapidtogo.address.model.Address;
+import io.rapidtogo.rapidtogo.customer.order.model.Order;
 import io.rapidtogo.rapidtogo.customer.review.model.Review;
 import io.rapidtogo.rapidtogo.partner.menu.model.Menu;
 import io.rapidtogo.rapidtogo.partner.restaurant.enums.Category;
@@ -107,4 +108,7 @@ public class Restaurant {
 
   @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
   private List<Menu> menus = new ArrayList<>();
+
+  @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+  private List<Order> orders = new ArrayList<>();
 }

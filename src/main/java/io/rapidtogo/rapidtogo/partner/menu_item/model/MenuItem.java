@@ -1,5 +1,6 @@
 package io.rapidtogo.rapidtogo.partner.menu_item.model;
 
+import io.rapidtogo.rapidtogo.customer.order_item.model.OrderItem;
 import io.rapidtogo.rapidtogo.partner.menu.model.Menu;
 import io.rapidtogo.rapidtogo.partner.menu_item.enums.Allergy;
 import jakarta.persistence.CascadeType;
@@ -15,9 +16,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -52,6 +55,14 @@ public class MenuItem {
   @CollectionTable(name = "menu_item_allergies", joinColumns = @JoinColumn(name = "menu_item_id"))
   @Column(name = "allergy")
   private Set<Allergy> allergies;
+
+  @OneToMany(mappedBy = "menuItem", cascade = {
+      CascadeType.PERSIST,
+      CascadeType.MERGE,
+      CascadeType.REFRESH,
+      CascadeType.DETACH
+  }, fetch = FetchType.LAZY)
+  private List<OrderItem> orderItems;
 
   @ManyToOne(cascade = {
       CascadeType.PERSIST,
