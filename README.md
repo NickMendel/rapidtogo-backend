@@ -24,14 +24,16 @@ the following functionalities:
     - Partner management for platform
     - Driver management for platform
 
-## Planing Tasks
+## Technologies
 
-- [x] Create the project structure
-- [x] Create the project README.md
-- [x] Create the project LICENSE
-- [x] Create the project CHANGELOG.md
-- [x] Create the restaurant partner domain
-- [x] Create the menu domain
-- [] Create the review domain
-- [x] Create the product domain
-- [x] Create the address domain
+- **Spring Boot**
+- **Spring Data JPA**
+- **Spring Web** - RESTful API
+- **Spring Security** - Planned
+- **Spring Rest Docs** - Planned
+- **JUnit 5** - Planned
+- **Mockito** - Planned
+- **Docker** - Planned
+- **Docker Compose** - Planned
+- **Kubernetes** - Planned
+- **Kafka** - Planned
