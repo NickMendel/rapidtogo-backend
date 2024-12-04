@@ -1,4 +1,4 @@
-package io.rapidtogo.rapidtogo.product.enums;
+package io.rapidtogo.rapidtogo.partner.menu_item.enums;
 
 public enum Allergy {
   GLUTEN,

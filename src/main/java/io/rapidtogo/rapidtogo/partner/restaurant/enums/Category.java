@@ -1,4 +1,4 @@
-package io.rapidtogo.rapidtogo.restaurant.enums;
+package io.rapidtogo.rapidtogo.partner.restaurant.enums;
 
 public enum Category {
   ITALIAN,
