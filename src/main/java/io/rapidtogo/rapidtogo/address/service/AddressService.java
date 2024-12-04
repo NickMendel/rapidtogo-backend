@@ -2,9 +2,9 @@ package io.rapidtogo.rapidtogo.address.service;
 
 import io.rapidtogo.rapidtogo.address.dto.AddressRequest;
 import io.rapidtogo.rapidtogo.address.mapper.AddressMapper;
-import io.rapidtogo.rapidtogo.restaurant.model.Restaurant;
-import io.rapidtogo.rapidtogo.restaurant.repository.RestaurantRepository;
-import io.rapidtogo.rapidtogo.restaurant.repository.RestaurantRepositoryHelper;
+import io.rapidtogo.rapidtogo.partner.restaurant.model.Restaurant;
+import io.rapidtogo.rapidtogo.partner.restaurant.repository.RestaurantRepository;
+import io.rapidtogo.rapidtogo.partner.restaurant.repository.RestaurantRepositoryHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

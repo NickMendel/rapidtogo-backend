@@ -1,6 +1,6 @@
 package io.rapidtogo.rapidtogo.exception;
 
-import io.rapidtogo.rapidtogo.review.exception.ReviewNotUpdatableException;
+import io.rapidtogo.rapidtogo.customer.review.exception.ReviewNotUpdatableException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -25,7 +25,7 @@ public class ExceptionHandling {
     log.error("EntityNotFoundException: {}", e.getMessage());
 
     return ResponseEntity.status(HttpStatus.NO_CONTENT)
-        .header("X-Error-Message", "EntityNotFoundException: ", e.getMessage()).build();
+        .header("X-Error-Message", "EntityNotFoundException: " + e.getMessage()).build();
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -65,8 +65,7 @@ public class ExceptionHandling {
     log.error("IllegalArgumentException: {}", e.getMessage());
 
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .header("X-Error-Message", "IllegalArgumentException: " + e.getMessage())
-        .build();
+        .header("X-Error-Message", "IllegalArgumentException: " + e.getMessage()).build();
   }
 
   @ExceptionHandler(ConstraintViolationException.class)
@@ -78,8 +77,7 @@ public class ExceptionHandling {
     log.error("ConstraintViolationException: {}", errorMessages);
 
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .header("X-Error-Message", "ConstraintViolationException: " + errorMessages)
-        .build();
+        .header("X-Error-Message", "ConstraintViolationException: " + errorMessages).build();
   }
 
   @ExceptionHandler(UniqueNameException.class)
@@ -88,8 +86,7 @@ public class ExceptionHandling {
     log.error("UniqueNameException: {}", e.getMessage());
 
     return ResponseEntity.status(HttpStatus.CONFLICT)
-        .header("X-Error-Message", "UniqueNameException: " + e.getMessage())
-        .build();
+        .header("X-Error-Message", "UniqueNameException: " + e.getMessage()).build();
   }
 
   @ExceptionHandler(ReviewNotUpdatableException.class)
@@ -98,7 +95,6 @@ public class ExceptionHandling {
     log.error("ReviewNotUpdatableException: {}", e.getMessage());
 
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .header("X-Error-Message", "ReviewNotUpdatableException: " + e.getMessage())
-        .build();
+        .header("X-Error-Message", "ReviewNotUpdatableException: " + e.getMessage()).build();
   }
 }
