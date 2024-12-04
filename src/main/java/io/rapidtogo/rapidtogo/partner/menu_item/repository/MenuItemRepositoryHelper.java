@@ -13,11 +13,11 @@ public class MenuItemRepositoryHelper {
   private final MenuItemRepository menuItemRepository;
 
   /**
-   * Check if a product with the given name already exists in the menu with the given ID
+   * Check if a menu item with the given name already exists in the menu with the given ID
    *
-   * @param name   Name of the product
+   * @param name   Name of the menu item
    * @param menuId ID of the menu
-   * @throws UniqueNameException if a product with the given name already exists in the menu
+   * @throws UniqueNameException if a menu item with the given name already exists in the menu
    */
   public void checkExistenceByNameAndMenuId(String name, Long menuId) {
 
@@ -28,19 +28,33 @@ public class MenuItemRepositoryHelper {
   }
 
   /**
-   * Find a product by its ID and the ID of the menu it belongs to
+   * Find a menu item by its ID and the ID of the menu it belongs to
    *
-   * @param productId ID of the product
+   * @param menuItemId ID of the product
    * @param menuId    ID of the menu
    * @return MenuItem with the given ID and menu ID
    * @throws EntityNotFoundException if the product with the given ID does not exist in the menu
    *                                 with the given ID
    */
-  public MenuItem findByIdAndMenuId(Long productId, Long menuId) {
+  public MenuItem findByIdAndMenuId(Long menuItemId, Long menuId) {
 
-    return menuItemRepository.findByIdAndMenuId(productId, menuId)
+    return menuItemRepository.findByIdAndMenuId(menuItemId, menuId)
         .orElseThrow(() -> new EntityNotFoundException(
-            "MenuItem with ID: " + productId + " not found in menu with ID: " + menuId));
+            "MenuItem with ID: " + menuItemId + " not found in menu with ID: " + menuId));
+  }
+
+  /**
+   * Find a menu item by given ID
+   *
+   * @param menuItemId
+   * @return MenuItem with the given ID
+   * @throws EntityNotFoundException If the menu item with the given ID does not exist
+   */
+  public MenuItem findById(Long menuItemId) {
+
+    return menuItemRepository.findById(menuItemId)
+        .orElseThrow(() -> new EntityNotFoundException(
+            "MenuItem with ID: " + menuItemId + " not found"));
   }
 
 }
