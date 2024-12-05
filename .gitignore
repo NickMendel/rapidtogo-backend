@@ -39,3 +39,4 @@ out/
 ### Environments ###
 /.env
 /*.env
+/keycloak/*.env
