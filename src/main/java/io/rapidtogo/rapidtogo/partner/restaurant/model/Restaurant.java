@@ -29,6 +29,7 @@ import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -57,7 +58,7 @@ public class Restaurant {
   @CollectionTable(name = "restaurant_opening_hours", joinColumns = @JoinColumn(name = "restaurant_id"))
   @Column(name = "time_interval")
   @Convert(converter = LocalTimeArrayConverter.class, attributeName = "value")
-  private Map<DayOfWeek, LocalTime[]> openingHours;
+  private Map<DayOfWeek, LocalTime[]> openingHours = new HashMap<>();
 
   @Column(name = "pick_up", nullable = false)
   private boolean pickUp = false;
