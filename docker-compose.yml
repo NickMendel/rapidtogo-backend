@@ -1,0 +1,42 @@
+services:
+  db:
+    image: postgres:17.0
+    container_name: pg-db
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./keycloak/db/init.sql:/docker-entrypoint-initdb.d/init.sql # This is for keycloak
+    env_file:
+      - ./docker-compose-db.env
+    networks:
+      - rapidtogo_network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U admin" ]
+      interval: 30s       # How often performing the check (default: 30s)
+      timeout: 10s        # How long waiting for a response (default: 10s)
+      retries: 3          # How many retries before marking as unhealthy (default: 3)
+
+  app:
+    depends_on:
+      - db
+    build: .
+    container_name: rapidtogo-app
+    restart: always
+    ports:
+      - "9999:5000"
+    env_file:
+      - .env
+    volumes:
+      - app_data:/app_data
+    networks:
+      - rapidtogo_network
+
+volumes:
+  app_data:
+  db_data:
+
+networks:
+  rapidtogo_network:
+    driver: bridge
