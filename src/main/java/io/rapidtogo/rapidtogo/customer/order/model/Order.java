@@ -27,7 +27,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -60,7 +60,7 @@ public class Order {
   @Column(name = "delivery_fee")
   private BigDecimal deliveryFee = BigDecimal.ZERO;
 
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
   private Address deliveryAddress;
 
   @Column(name = "is_paid", nullable = false)
@@ -72,9 +72,14 @@ public class Order {
   @Column(name = "received_at")
   private LocalDateTime receivedAt;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(cascade = {
+      CascadeType.PERSIST,
+      CascadeType.MERGE,
+      CascadeType.REFRESH,
+      CascadeType.DETACH
+  }, fetch = FetchType.LAZY)
   private Restaurant restaurant;
 
-  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
   private List<OrderItem> orderItems;
 }
