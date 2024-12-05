@@ -3,7 +3,9 @@ package io.rapidtogo.rapidtogo.utils.Date_Time;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import org.springframework.stereotype.Component;
 
+@Component
 public class LocalDateTimeFormatter {
 
   /**
