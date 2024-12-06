@@ -33,6 +33,29 @@ services:
     networks:
       - rapidtogo_network
 
+  kc:
+    depends_on:
+      - db
+    build: ./keycloak
+    container_name: kc
+    restart: always
+    ports:
+      - "4000:4000"
+    env_file:
+      - ./keycloak/docker-compose-kc.env
+    volumes:
+      - ./keycloak/realm_data:/opt/keycloak/data/import
+    networks:
+      - rapidtogo_network
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost:4000/health" ]
+      interval: 30s       # How often performing the check (default: 30s)
+      timeout: 10s        # How long waiting for a response (default: 10s)
+      retries: 3          # How many retries before marking as unhealthy (default: 3)
+    command:
+      - "start-dev"
+      - "--import-realm"
+
 volumes:
   app_data:
   db_data:
