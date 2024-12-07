@@ -43,8 +43,6 @@ services:
       - "4000:4000"
     env_file:
       - ./keycloak/docker-compose-kc.env
-    volumes:
-      - ./keycloak/realm_data:/opt/keycloak/data/import
     networks:
       - rapidtogo_network
     healthcheck:
@@ -54,7 +52,6 @@ services:
       retries: 3          # How many retries before marking as unhealthy (default: 3)
     command:
       - "start-dev"
-      - "--import-realm"
 
 volumes:
   app_data:
