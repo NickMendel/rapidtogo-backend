@@ -50,10 +50,10 @@ jobs:
       - name: Build and tag Docker image
         run: |
           docker build -t ${{ secrets.DOCKER_IMAGE_NAME }}:prod .
-          docker tag ${{ secrets.DOCKER_IMAGE_NAME }}:prod ${{ secrets.DOCKER_REPOSITORY }}/${{ secrets.DOCKER_IMAGE_NAME }}:prod
+          docker tag ${{ secrets.DOCKER_IMAGE_NAME }}:prod ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:prod
 
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_REPOSITORY }}/${{ secrets.DOCKER_IMAGE_NAME }}:prod
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:prod
 
       - name: Notify Discord
         if: always()
