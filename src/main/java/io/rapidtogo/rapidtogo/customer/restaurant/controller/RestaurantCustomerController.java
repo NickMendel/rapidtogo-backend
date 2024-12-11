@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/v1/customer/restaurants")
+@RequestMapping("/v1/customers/restaurants")
 @CrossOrigin(origins = "*")
 @Slf4j
 @RequiredArgsConstructor
