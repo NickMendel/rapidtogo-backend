@@ -12,9 +12,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class MenuItemMapper {
 
-  public MenuItem mapToEntity(MenuItemRequest request) {
+  public MenuItem mapToEntity(MenuItemRequest request, String userId) {
 
-    if (request == null) {
+    if (request == null || userId == null) {
       return null;
     }
 

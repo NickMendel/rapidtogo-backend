@@ -15,9 +15,9 @@ public class MenuMapper {
 
   private final MenuItemMapper menuItemMapper;
 
-  public Menu mapToEntity(MenuRequest request) {
+  public Menu mapToEntity(MenuRequest request, String userId) {
 
-    if (request == null) {
+    if (request == null || userId == null) {
       return null;
     }
 
