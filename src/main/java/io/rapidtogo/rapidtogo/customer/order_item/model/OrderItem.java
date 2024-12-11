@@ -55,6 +55,6 @@ public class OrderItem {
   @ManyToOne(fetch = FetchType.LAZY)
   private MenuItem menuItem;
 
-  @Column(name = "user_id")
+  @Column(name = "user_id", nullable = false)
   private String userId;
 }

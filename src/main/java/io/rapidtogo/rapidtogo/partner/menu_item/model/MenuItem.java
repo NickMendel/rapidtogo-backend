@@ -50,6 +50,9 @@ public class MenuItem {
   @Column(name = "active", nullable = false)
   private boolean active = true;
 
+  @Column(name = "user_id", nullable = false)
+  private String userId;
+
   @ElementCollection
   @Enumerated(EnumType.STRING)
   @CollectionTable(name = "menu_item_allergies", joinColumns = @JoinColumn(name = "menu_item_id"))

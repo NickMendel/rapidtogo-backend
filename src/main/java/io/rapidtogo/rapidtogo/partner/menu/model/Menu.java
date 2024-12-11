@@ -51,6 +51,6 @@ public class Menu {
   @Column(name = "active", nullable = false)
   private boolean active = true;
 
-  @Column(name = "user_id")
+  @Column(name = "user_id", nullable = false)
   private String userId;
 }

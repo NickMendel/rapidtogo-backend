@@ -49,7 +49,6 @@ public class Review {
   }, fetch = FetchType.LAZY)
   private Restaurant restaurant;
 
-  // TODO: Add nullable = false after implementing user authentication
-  @Column(name = "user_id")
+  @Column(name = "user_id", nullable = false)
   private String userId;
 }
