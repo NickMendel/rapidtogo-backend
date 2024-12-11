@@ -76,8 +76,9 @@ jobs:
             MESSAGE_BODY="❌ **Failed** build on branch \`${HEAD_BRANCH}\`"
           fi
             FULL_MESSAGE="${MESSAGE_PREFIX}\n\n${MESSAGE_BODY}\n\n${MESSAGE_SUFFIX}"
-            curl -H "Content-Type: application/json" -\
-                 -d "{\"content\": \"${FULL_MESSAGE}\"}" $WEBHOOK_URL
+            curl -H "Content-Type: application/json" \
+                 -d "{\"content\": \"${FULL_MESSAGE}\"}" \
+                 $WEBHOOK_URL
 
   # Uncomment the following block to deploy the application to the cloud (e.g., AWS, Azure, DigitalOcean, etc.)
 #  deployment:
