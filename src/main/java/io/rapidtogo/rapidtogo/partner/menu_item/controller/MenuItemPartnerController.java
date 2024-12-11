@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,32 +27,33 @@ public class MenuItemPartnerController {
 
   private final MenuItemService menuItemService;
 
-  @PostMapping("/menus/{menuId}/products")
-  public ResponseEntity<String> createProduct(@PathVariable Long menuId,
-      @RequestBody @Valid MenuItemRequest request) {
+  @PostMapping("/menus/{menuId}/menu-items")
+  public ResponseEntity<String> createMenuItem(@PathVariable Long menuId,
+      @RequestBody @Valid MenuItemRequest request, @AuthenticationPrincipal Jwt jwt) {
 
-    String successMessage = menuItemService.createProduct(menuId, request);
+    String successMessage = menuItemService.createMenuItem(menuId, request, jwt);
     log.info("Menu Item with name {} created successfully.", request.getName());
 
     return ResponseEntity.status(HttpStatus.CREATED).body(successMessage);
   }
 
-  @PutMapping("/menus/{menuId}/products/{productId}")
-  public ResponseEntity<String> updateProduct(@PathVariable Long menuId,
-      @PathVariable Long productId, @RequestBody @Valid MenuItemRequest request) {
+  @PutMapping("/menus/{menuId}/menu-items/{menuItemId}")
+  public ResponseEntity<String> updateMenuItem(@PathVariable Long menuId,
+      @PathVariable Long menuItemId, @RequestBody @Valid MenuItemRequest request,
+      @AuthenticationPrincipal Jwt jwt) {
 
-    String successMessage = menuItemService.updateProduct(menuId, productId, request);
-    log.info("Menu Item with ID {} updated successfully.", productId);
+    String successMessage = menuItemService.updateMenuItem(menuId, menuItemId, request, jwt);
+    log.info("Menu Item with ID {} updated successfully.", menuItemId);
 
     return ResponseEntity.status(HttpStatus.OK).body(successMessage);
   }
 
-  @DeleteMapping("/menus/{menuId}/products/{productId}")
-  public ResponseEntity<String> deleteProduct(@PathVariable Long menuId,
-      @PathVariable Long productId) {
+  @DeleteMapping("/menus/{menuId}/menu-items/{menuItemId}")
+  public ResponseEntity<String> deleteMenuItem(@PathVariable Long menuId,
+      @PathVariable Long menuItemId, @AuthenticationPrincipal Jwt jwt) {
 
-    String successMessage = menuItemService.deleteProduct(menuId, productId);
-    log.info("Menu Item with ID {} deleted successfully.", productId);
+    String successMessage = menuItemService.deleteMenuItem(menuId, menuItemId, jwt);
+    log.info("Menu Item with ID {} deleted successfully.", menuItemId);
 
     return ResponseEntity.status(HttpStatus.NO_CONTENT).body(successMessage);
   }

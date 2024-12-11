@@ -9,6 +9,7 @@ import io.rapidtogo.rapidtogo.partner.menu_item.model.MenuItem;
 import io.rapidtogo.rapidtogo.partner.menu_item.repository.MenuItemRepository;
 import io.rapidtogo.rapidtogo.partner.menu_item.repository.MenuItemRepositoryHelper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,35 +24,38 @@ public class MenuItemService {
   private final MenuRepositoryHelper menuRepositoryHelper;
 
   @Transactional
-  public String createProduct(Long menuId, MenuItemRequest request) {
+  public String createMenuItem(Long menuId, MenuItemRequest request, Jwt jwt) {
 
-    Menu menu = menuRepositoryHelper.findById(menuId);
-    menuItemRepositoryHelper.checkExistenceByNameAndMenuId(request.getName(), menuId);
-    MenuItem menuItem = menuItemMapper.mapToEntity(request);
+    String userId = jwt.getSubject();
+    Menu menu = menuRepositoryHelper.findById(menuId, userId);
+    menuItemRepositoryHelper.checkExistenceByNameAndMenuId(request.getName(), menuId, userId);
+    MenuItem menuItem = menuItemMapper.mapToEntity(request, userId);
     menuItem.setMenu(menu);
     menu.getMenuItems().add(menuItem);
     menuRepository.save(menu);
 
-    return "MenuItem with name " + request.getName() + " created successfully.";
+    return "Menu Item with name " + request.getName() + " created successfully.";
   }
 
   @Transactional
-  public String updateProduct(Long menuId, Long productId, MenuItemRequest request) {
+  public String updateMenuItem(Long menuId, Long menuItemId, MenuItemRequest request, Jwt jwt) {
 
-    menuRepositoryHelper.checkExistence(menuId);
-    MenuItem menuItem = menuItemRepositoryHelper.findByIdAndMenuId(productId, menuId);
+    String userId = jwt.getSubject();
+    menuRepositoryHelper.checkExistence(menuId, userId);
+    MenuItem menuItem = menuItemRepositoryHelper.findByIdAndMenuId(menuItemId, menuId, userId);
     menuItemMapper.updateEntity(menuItem, request);
 
-    return "MenuItem with ID " + productId + " updated successfully.";
+    return "Menu Item with ID " + menuItemId + " updated successfully.";
   }
 
   @Transactional
-  public String deleteProduct(Long menuId, Long productId) {
+  public String deleteMenuItem(Long menuId, Long menuItemId, Jwt jwt) {
 
-    menuRepositoryHelper.checkExistence(menuId);
-    MenuItem menuItem = menuItemRepositoryHelper.findByIdAndMenuId(productId, menuId);
+    String userId = jwt.getSubject();
+    menuRepositoryHelper.checkExistence(menuId, userId);
+    MenuItem menuItem = menuItemRepositoryHelper.findByIdAndMenuId(menuItemId, menuId, userId);
     menuItemRepository.delete(menuItem);
 
-    return "MenuItem with ID " + productId + " deleted successfully.";
+    return "Menu Item with ID " + menuItemId + " deleted successfully.";
   }
 }
