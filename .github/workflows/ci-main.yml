@@ -70,7 +70,7 @@ jobs:
           MESSAGE_PREFIX="🚀 [PROD] CI/CD: Workflow \`${{ github.workflow }}\` has been triggered by \`${USER_TRIGGER}\` on \`${EVENT_TYPE}\`"
           MESSAGE_SUFFIX="[View run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
           
-          if [ "${{ STATUS }}" == "success" ]; then
+          if [ "${ STATUS }" == "success" ]; then
             MESSAGE_BODY="✅ **Success** build on branch \`${HEAD_BRANCH}\`"
           else
             MESSAGE_BODY="❌ **Failed** build on branch \`${HEAD_BRANCH}\`"
