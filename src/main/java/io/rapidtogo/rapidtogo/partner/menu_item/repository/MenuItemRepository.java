@@ -11,12 +11,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface MenuItemRepository extends JpaRepository<MenuItem, Long> {
 
-  @Query("SELECT CASE WHEN COUNT(mi) > 0 THEN TRUE ELSE FALSE END FROM MenuItem mi WHERE mi.name = :name AND mi.menu.id = :menuId")
-  boolean existsByNameAndMenuId(String name, Long menuId);
+  @Query("SELECT CASE WHEN COUNT(mi) > 0 THEN TRUE ELSE FALSE END FROM MenuItem mi "
+      + "WHERE mi.name = :name AND mi.menu.id = :menuId AND mi.userId = :userId")
+  boolean existsByNameAndMenuId(String name, Long menuId, String userId);
 
   @Query("SELECT mi FROM MenuItem mi WHERE mi.id = :menuItemId AND mi.menu.id = :menuId")
   Optional<MenuItem> findByIdAndMenuId(Long menuItemId, Long menuId);
 
+  @Query("SELECT mi FROM MenuItem mi WHERE mi.id = :menuItemId AND mi.menu.id = :menuId AND mi.userId = :userId")
+  Optional<MenuItem> findByIdAndMenuId(Long menuItemId, Long menuId, String userId);
+
   @Query("SELECT mi FROM MenuItem mi WHERE mi.id = :menuItemId")
   Optional<MenuItem> findById(Long menuItemId);
+
+  @Query("SELECT mi FROM MenuItem mi WHERE mi.id = :menuItemId AND mi.userId = :userId")
+  Optional<MenuItem> findById(Long menuItemId, String userId);
 }
