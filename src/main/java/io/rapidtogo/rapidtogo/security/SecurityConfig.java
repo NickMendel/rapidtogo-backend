@@ -25,15 +25,16 @@ public class SecurityConfig {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
     http.csrf(AbstractHttpConfigurer::disable);
-
+    http.cors(Customizer.withDefaults());
     http.headers(headers -> headers.frameOptions(
         HeadersConfigurer.FrameOptionsConfig::disable)); // H2-Console (if enabled in application.properties)
 
-    http.authorizeHttpRequests(
-        (auth) -> auth.requestMatchers("/error", ACTUATOR_PATH + "/**").permitAll()
-            .requestMatchers(API_DOCS_PATH + "/**", "/h2-console/**").hasRole("ADMIN")
-            .requestMatchers("/v1/customers/**").hasRole("CUSTOMER")
-            .requestMatchers("/v1/partners/**").hasRole("PARTNER").anyRequest().authenticated());
+    http.authorizeHttpRequests((auth) -> auth
+        .requestMatchers("/error", ACTUATOR_PATH + "/**").permitAll()
+        .requestMatchers(API_DOCS_PATH + "/**", "/h2-console/**").hasRole("ADMIN")
+        .requestMatchers("/v1/customers/**").hasRole("CUSTOMER")
+        .requestMatchers("/v1/partners/**").hasRole("PARTNER")
+        .anyRequest().authenticated());
 
     http.sessionManagement(
         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

@@ -1,2 +1,0 @@
--- Create Sequence for the table 'restaurant'
--- CREATE SEQUENCE restaurant_id_seq START WITH 1 INCREMENT BY 1;
