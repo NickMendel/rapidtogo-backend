@@ -24,9 +24,9 @@ public class RestaurantMapper {
   private final AddressMapper addressMapper;
   private final IntervalFormatter intervalFormatter;
 
-  public Restaurant mapToEntity(RestaurantCreateRequest request) {
+  public Restaurant mapToEntity(RestaurantCreateRequest request, String userId) {
 
-    if (request == null) {
+    if (request == null || userId == null) {
       return null;
     }
 
@@ -38,6 +38,7 @@ public class RestaurantMapper {
     restaurant.setCategories(
         request.getCategory().stream().map(Category::valueOf).collect(Collectors.toSet()));
     restaurant.setAddress(addressMapper.mapToEntity(request.getAddress()));
+    restaurant.setUserId(userId);
 
     if (request.getDeliveryFee() != null) {
       restaurant.setDeliveryFee(request.getDeliveryFee());
