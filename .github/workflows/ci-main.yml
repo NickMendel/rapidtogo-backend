@@ -1,0 +1,148 @@
+name: CI/CD [PROD]
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.11'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      - name: Build with Gradle
+        env:
+          SPRING_PROFILES_ACTIVE: ${{ secrets.SPRING_PROFILES_ACTIVE_CI }}
+          SERVER_PORT: ${{ secrets.SERVER_PORT_PROD }}
+          SPRING_DATASOURCE_URL: ${{ secrets.DB_URL_CI }}
+          SPRING_DATASOURCE_USERNAME: ${{ secrets.DB_USERNAME_CI }}
+          SPRING_DATASOURCE_PASSWORD: ${{ secrets.DB_PASSWORD_CI }}
+          CONTEXT_PATH: ${{ secrets.CONTEXT_PATH_PROD }}
+          ACTUATOR_BASE_PATH: ${{ secrets.ACTUATOR_BASE_PATH_PROD }}
+          API_DOCS_PATH: ${{ secrets.API_DOCS_PATH }}
+          KC_JWK_SET_URI: ${{ secrets.KC_JWK_SET_URI_PROD }}
+          KC_ISSUER_URI: ${{ secrets.KC_ISSUER_URI_PROD }}
+        run: ./gradlew build -x test -x asciidoctor --no-daemon
+
+      - name: Run tests
+        run: ./gradlew test --no-daemon
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and tag Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKER_IMAGE_NAME }}:prod .
+          docker tag ${{ secrets.DOCKER_IMAGE_NAME }}:prod ${{ secrets.DOCKER_IMAGE_NAME }}:prod
+
+      - name: Push Docker image
+        run: docker push ${{ secrets.DOCKER_IMAGE_NAME }}:prod
+
+      - name: Notify Discord
+        if: always()
+        env:
+          STATUS: ${{ job.status }}
+          WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL_PROD }}
+          HEAD_BRANCH: ${{ github.ref_name }}
+          USER_TRIGGER: ${{ github.actor }}
+        run: |
+          EVENT_TYPE="${{ github.event_name }}"
+          MESSAGE_PREFIX="🚀 [PROD] CI/CD: Workflow \`${{ github.workflow }}\` has been triggered by \`${USER_TRIGGER}\` on \`${EVENT_TYPE}\`"
+          MESSAGE_SUFFIX="[View run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+          
+          if [ "${{ STATUS }}" == "success" ]; then
+            MESSAGE_BODY="✅ **Success** build on branch \`${HEAD_BRANCH}\`"
+          else
+            MESSAGE_BODY="❌ **Failed** build on branch \`${HEAD_BRANCH}\`"
+          fi
+            FULL_MESSAGE="${MESSAGE_PREFIX}\n\n${MESSAGE_BODY}\n\n${MESSAGE_SUFFIX}"
+            curl -H "Content-Type: application/json" -\
+                 -d "{\"content\": \"${FULL_MESSAGE}\"}" $WEBHOOK_URL
+
+  # Uncomment the following block to deploy the application to the cloud (e.g., AWS, Azure, DigitalOcean, etc.)
+#  deployment:
+#    needs: build
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v4
+#
+#      - name: Setup SSH
+#        uses: webfactory/ssh-agent@v0.9.0
+#        with:
+#          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+#
+#      - name: Login to Docker Hub
+#        uses: docker/login-action@v3
+#        with:
+#          username: ${{ secrets.DOCKER_USERNAME }}
+#          password: ${{ secrets.DOCKER_PASSWORD }}
+#
+#      # # Add deployment script here
+#      - name: Deployment to Cloud
+#        run: |
+#
+#      - name: Health check
+#        run: |
+#          # The URL to your health check endpoint
+#          HEALTH_URL="${{ secrets.HEALTH_URL_PROD }}"
+#
+#          RETRIES=5
+#          for i in $(seq 1 $RETRIES); do
+#          RESPONSE=$(curl --silent --fail $HEALTH_URL) && break || echo "Attempt $i of $RETRIES failed..."
+#          sleep 20
+#          done
+#
+#          if [ -z "$RESPONSE" ]; then
+#          echo "Health check failed after $RETRIES attempts."
+#          exit 1
+#          fi
+#
+#          STATUS=$(echo $RESPONSE | jq -r '.status')
+#          if [ "$STATUS" != "UP" ]; then
+#          echo "Health check passed, but status is not UP. Status: $STATUS"
+#          exit 1
+#          fi
+#
+#          echo "Health check passed with status: $STATUS"
+#
+#      - name: Notify Discord
+#        if: always()
+#        env:
+#          STATUS: ${{ job.status }}
+#          WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL_PROD }}
+#          HEAD_BRANCH: ${{ github.ref_name }}
+#          USER_TRIGGER: ${{ github.actor }}
+#        run: |
+#          EVENT_TYPE="${{ github.event_name }}"
+#          MESSAGE_PREFIX="🚀 [PROD] CI/CD: Deployment to Cloud has been triggered by \`${USER_TRIGGER}\` on \`${EVENT_TYPE}\`"
+#          MESSAGE_SUFFIX="[View run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+#
+#          if [ "${{ STATUS }}" == "success" ]; then
+#              MESSAGE_BODY="✅ **Success** on branch \`${HEAD_BRANCH}\`"
+#          else
+#              MESSAGE_BODY="❌ **Failed** on branch \`${HEAD_BRANCH}\`"
+#          fi
+#              FULL_MESSAGE="${MESSAGE_PREFIX}\n\n${MESSAGE_BODY}\n\n${MESSAGE_SUFFIX}"
+#              curl -H "Content-Type: application/json" -\
+#                   -d "{\"content\": \"${FULL_MESSAGE}\"}" $WEBHOOK_URL
