@@ -1,0 +1,10 @@
+name: Test ARC Runner
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test_echo:
+    runs-on: ["rzp-arc-runner"]
+    run: |
+      echo "Test successed!"
